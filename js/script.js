@@ -3,9 +3,11 @@
     var grid = [], 
         played = [], 
         notes = {},
-    realNotes = {};
+	realNotes = {};
+    
+    // user variables
     var xtiles = document.getElementById('xtiles').value, 
-    ytiles = document.getElementById('ytiles').value,
+	ytiles = document.getElementById('ytiles').value,
         //minHz = document.getElementById('minHz').value,
         maxHz = document.getElementById('maxHz').value,
         soundChoice = document.getElementById('soundChoice').value,
@@ -13,7 +15,8 @@
         lastPosition = 0,
         pxs = 2,
         end;
-
+     
+    // create canvas
     function init() {
         canvas = document.getElementById('myCanvas');
         ctx = myCanvas.getContext('2d');
@@ -23,11 +26,14 @@
         ctx.lineWidth=10;
     }
 
+    // create notes
     function createNotes() {
         for (var i = 0; i < ytiles; i++) {
             notes[i] = {frequency: ((ytiles-i)*(maxHz/ytiles)) }
         }
     }
+
+    // begin with real notes  
     realNotes = {         
     0: { frequency: "261.6" },
     1: { frequency: "293.7" },
@@ -73,6 +79,7 @@
         this.osc.start(0);
     };
 
+    // play sound
     Sound.prototype.play = function() {
         if(!this.pressed) {
             this.pressed = true;
@@ -80,11 +87,13 @@
         }
     };
 
+    // end sound
     Sound.prototype.stop = function() {
         this.pressed = false;
         this.osc.disconnect();
     };
 
+    // load notes
     function createKeyboard(notes) {
         for(var keyCode in notes) {
             var note = notes[keyCode];
@@ -124,6 +133,7 @@
     //
     */
 
+    // clear 2d inputs
     function resetGrid() {
         grid = [];
         var temp = [];
@@ -136,6 +146,7 @@
         }
     }
 
+    // reset played boolean
     function resetPlayed() {
         played.length = 0;
         for (var i = 0; i < xtiles; i++) {
@@ -143,6 +154,7 @@
         }
     }
 
+    // update seleced array and colors
     function updateGrid(x, y) {
         if (grid[x][y] == 0)
         grid[x][y] = 1;
@@ -152,6 +164,7 @@
         colorGrid();
     }
 
+    // color in selected rectangles
     function colorGrid() {
         for (var i = 0; i < xtiles; i++) {
         for (var y = 0; y < ytiles; y++) {
@@ -162,6 +175,7 @@
         }
     }
 
+    // draw green line
     function drawline(x) {
         // draw line
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -194,14 +208,17 @@
         }
     }
 
+    // end notes
     function endNoteHelper(yval) {
         setTimeout(function(){endNote(yval);}, ((canvas.width/xtiles)/pxs)*interval)-2;
     }
 
+    // interval to move line
     function moveline() {
         end = setInterval(function(){lastPosition = drawline(lastPosition);}, interval);
     }
 
+    // reset
     function resetLine() {
         interval = 45-document.getElementById('speed').value;
         clearInterval(end);
@@ -210,6 +227,7 @@
 
     }
 
+    // reset
     function resetSound() {
         endNotes();
         soundChoice = document.getElementById('soundChoice').value;
@@ -220,6 +238,7 @@
         }
     }
 
+    // reset
     function resetBoard() {
         endNotes();
         lastPosition = 0;
@@ -236,6 +255,7 @@
         resetPlayed();
     }
 
+    // reset
     function resetHz() {
         endNotes();
         //minHz = document.getElementById('minHz').value;
@@ -254,6 +274,7 @@
         }
     }
 
+    // randomly generate notes
     function randomG() {
         lastPosition = 0;
         resetGrid();

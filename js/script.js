@@ -2,9 +2,10 @@
     var ctx, canvas;
     var grid = [], 
         played = [], 
-        notes = {};
+        notes = {},
+    realNotes = {};
     var xtiles = document.getElementById('xtiles').value, 
-	    ytiles = document.getElementById('ytiles').value,
+    ytiles = document.getElementById('ytiles').value,
         //minHz = document.getElementById('minHz').value,
         maxHz = document.getElementById('maxHz').value,
         soundChoice = document.getElementById('soundChoice').value,
@@ -24,11 +25,21 @@
 
     function createNotes() {
         for (var i = 0; i < ytiles; i++) {
-            //notes[i] = {frequency: 100+((ytiles-i)*(500/ytiles))}
-            notes[i] = {frequency: (ytiles-i)*(maxHz/ytiles)}
-            //notes[i] = {frequency: ((ytiles-i)*(100/ytiles))}
+            notes[i] = {frequency: ((ytiles-i)*(maxHz/ytiles)) }
         }
     }
+    realNotes = {         
+    0: { frequency: "261.6" },
+    1: { frequency: "293.7" },
+    2: { frequency: "329.6" },
+    3: { frequency: "349.2" },
+    4: { frequency: "392" },
+    5: { frequency: "440" },
+    6: { frequency: "493.9" },
+    7: { frequency: "523.3" },
+    8: { frequency: "587.3" },
+    9: { frequency: "659.3"}
+    };
 
     /* 
     //
@@ -87,7 +98,11 @@
     var playNote = function(pos) {
         if(typeof notes[pos] !== 'undefined') {
             // Pipe sound to output (AKA speakers)
-            notes[pos].key.sound.play();
+            if (ytiles == 10) {
+                realNotes[pos].key.sound.play();
+            } else {
+                notes[pos].key.sound.play();
+            }
         }
     };
 
@@ -95,8 +110,11 @@
     var endNote = function(pos) {
         if(typeof notes[pos] !== 'undefined') {
             // Kill connection to output
-            notes[pos].key.sound.stop();
-            console.log('asdfasdfasd');
+            if (ytiles == 10) {
+                realNotes[pos].key.sound.stop();
+            } else {
+                notes[pos].key.sound.stop();
+            }
         }
     };
 
@@ -110,37 +128,37 @@
         grid = [];
         var temp = [];
         for (var i = 0; i < xtiles; i++) {
-	        for (var y = 0; y < ytiles; y++) {
-	           temp.push(0);
-	       }
-	   grid.push(temp);
-	   temp = [];
+            for (var y = 0; y < ytiles; y++) {
+               temp.push(0);
+           }
+       grid.push(temp);
+       temp = [];
         }
     }
 
     function resetPlayed() {
         played.length = 0;
         for (var i = 0; i < xtiles; i++) {
-    	played.push(0);
+        played.push(0);
         }
     }
 
     function updateGrid(x, y) {
         if (grid[x][y] == 0)
-    	grid[x][y] = 1;
+        grid[x][y] = 1;
         else
-    	grid[x][y] = 0;
+        grid[x][y] = 0;
         
         colorGrid();
     }
 
     function colorGrid() {
         for (var i = 0; i < xtiles; i++) {
-    	for (var y = 0; y < ytiles; y++) {
-    	    if (grid[i][y] == 1) {
-    		ctx.fillRect((i/xtiles)*canvas.width,(y/ytiles)*canvas.height,canvas.width/xtiles,canvas.height/ytiles);
-    	    }
-    	}
+        for (var y = 0; y < ytiles; y++) {
+            if (grid[i][y] == 1) {
+            ctx.fillRect((i/xtiles)*canvas.width,(y/ytiles)*canvas.height,canvas.width/xtiles,canvas.height/ytiles);
+            }
+        }
         }
     }
 
@@ -156,23 +174,23 @@
         // play sounds
         var xpos = Math.floor((x/canvas.width)*xtiles);
         if (played[xpos] == 0) {
-    	   for (var i = 0; i < ytiles; i++) {
-    	       if (grid[xpos][i] == 1) {
-    		      //console.log(i);
+           for (var i = 0; i < ytiles; i++) {
+               if (grid[xpos][i] == 1) {
+                  //console.log(i);
                   playNote(i);
                   endNoteHelper(i);
-    	       }
-    	   }
-    	   played[xpos] = 1
+               }
+           }
+           played[xpos] = 1
         }
 
         // move line
         if (x > canvas.width) {
-    	   resetPlayed();
-    	   return 0;
+           resetPlayed();
+           return 0;
         } else {
-    	   x+=pxs;
-    	   return x;
+           x+=pxs;
+           return x;
         }
     }
 
@@ -195,7 +213,11 @@
     function resetSound() {
         endNotes();
         soundChoice = document.getElementById('soundChoice').value;
-        createKeyboard(notes);
+        if (ytiles == 10) {
+            createKeyboard(realNotes);
+        } else {
+            createKeyboard(notes);
+        }
     }
 
     function resetBoard() {
@@ -203,6 +225,12 @@
         lastPosition = 0;
         xtiles = document.getElementById('xtiles').value; 
         ytiles = document.getElementById('ytiles').value;
+    createNotes();
+        if (ytiles == 10) {
+            createKeyboard(realNotes);
+        } else {
+            createKeyboard(notes);
+        }
         resetGrid();
         colorGrid();
         resetPlayed();
@@ -213,7 +241,11 @@
         //minHz = document.getElementById('minHz').value;
         maxHz = document.getElementById('maxHz').value;
         createNotes();
-        createKeyboard(notes);
+        if (ytiles == 10) {
+            createKeyboard(realNotes);
+        } else {
+            createKeyboard(notes);
+        }
     }
 
     function endNotes() {
@@ -240,14 +272,14 @@
     var elem = document.getElementById('myCanvas');
     elem.addEventListener('click', function(event) {
             var x = event.pageX-10,
-		y = event.pageY-10;
+        y = event.pageY-10;
 
-	    console.log(x);
-	    console.log(y);
+        console.log(x);
+        console.log(y);
 
         var xpos = Math.floor((x/canvas.width)*xtiles);
-	var ypos = Math.floor((y/canvas.height)*ytiles);
-    	updateGrid(xpos, ypos);
+    var ypos = Math.floor((y/canvas.height)*ytiles);
+        updateGrid(xpos, ypos);
 
         }, false);
 
@@ -255,5 +287,5 @@
     resetGrid();
     resetPlayed();
     createNotes();
-    createKeyboard(notes);
+    createKeyboard(realNotes);
     moveline();

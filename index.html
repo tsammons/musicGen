@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Project 01</title>
+</head>
+
+<body>
+  <canvas id="myCanvas"></canvas>
+  <div id="controls">
+  	<p>Speed</p>
+  	<input onchange="resetLine()" id="speed" type ="range" min ="10" max="40" step ="1" value ="23"/>
+  	<p>width</p>
+  	<input onchange="resetBoard()" id="xtiles" type="range" step="1" min="10" max="200" value="70">
+  	<p>height</p>
+  	<input onchange="resetBoard()" id="ytiles" type="range" step="1" min="10" max="200" value="25">
+  	<p>Min Hertz</p>
+  	<input onchange="resetHz()" id="minHz" type="range" step="5" min="0" max="100" value="0">
+  	<p>Max Hertz</p>
+  	<input onchange="resetHz()" id="maxHz" type="range" step="10" min="110" max="800" value="400">
+  	<p>Sound Type</p>
+  	<select id="soundChoice" onchange="resetSound()">
+  		<option value="triangle" selected>Triangle</option>
+  		<option value="sine">Sine</option>
+  		<option value="sawtooth">Sawtooth</option>
+  		<option value="square">Square</option>
+	</select>
+	<button onclick="resetBoard()" type="button">Reset</button>
+	<button onclick="randomG()" type="button">Generate</button>
+
+  </div>
+
+  <script src="js/script.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+</body>
+</html>

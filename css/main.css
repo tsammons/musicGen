@@ -1,0 +1,16 @@
+html, body, div, canvas {
+    margin: 0px;
+    padding: 0px;
+}
+
+#controls {
+    height: 80px;
+    display:inline-block;
+}
+
+canvas {
+    border: 10px solid brown;
+    width: -webkit-calc(100% - 20px);
+    width:    -moz-calc(100% - 20px);
+    width:         calc(100% - 20px);
+}

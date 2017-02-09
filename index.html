@@ -7,6 +7,8 @@
 <body>
   <canvas id="myCanvas"></canvas>
   <div id="controls">
+        <button onclick="randomG()" type="button">Generate</button>
+	<button onclick="resetBoard()" type="button">Reset</button>
   	<p>Speed</p>
   	<input onchange="resetLine()" id="speed" type ="range" min ="10" max="40" step ="1" value ="23"/>
   	<p>width</p>
@@ -22,8 +24,6 @@
   		<option value="sawtooth">Sawtooth</option>
   		<option value="square">Square</option>
 	</select>
-	<button onclick="resetBoard()" type="button">Reset</button>
-	<button onclick="randomG()" type="button">Generate</button>
 
   </div>
 

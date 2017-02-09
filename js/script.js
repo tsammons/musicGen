@@ -5,7 +5,7 @@
         notes = {};
     var xtiles = document.getElementById('xtiles').value, 
 	    ytiles = document.getElementById('ytiles').value,
-        minHz = document.getElementById('minHz').value,
+        //minHz = document.getElementById('minHz').value,
         maxHz = document.getElementById('maxHz').value,
         soundChoice = document.getElementById('soundChoice').value,
         interval = 45-document.getElementById('speed').value,
@@ -25,7 +25,7 @@
     function createNotes() {
         for (var i = 0; i < ytiles; i++) {
             //notes[i] = {frequency: 100+((ytiles-i)*(500/ytiles))}
-            notes[i] = {frequency: minHz + ((ytiles-i)*(maxHz/ytiles))}
+            notes[i] = {frequency: (ytiles-i)*(maxHz/ytiles)}
             //notes[i] = {frequency: ((ytiles-i)*(100/ytiles))}
         }
     }
@@ -210,7 +210,7 @@
 
     function resetHz() {
         endNotes();
-        minHz = document.getElementById('minHz').value;
+        //minHz = document.getElementById('minHz').value;
         maxHz = document.getElementById('maxHz').value;
         createNotes();
         createKeyboard(notes);
